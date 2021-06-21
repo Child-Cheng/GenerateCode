@@ -1,0 +1,7 @@
+{
+  "MSSQL": "",
+  "MySQL": "Data Source={Host};port={Port};  Initial Catalog={db};uid={User}; pwd={pass};SslMode=none",
+  "Oracle": "",
+  "SQLite": "",
+  "PostgreSQL": ""
+}

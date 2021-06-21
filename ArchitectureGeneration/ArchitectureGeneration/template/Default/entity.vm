@@ -1,0 +1,43 @@
+﻿using System;
+using Newtonsoft.Json;
+using SqlSugar;
+
+
+namespace ${namespace}.Entity
+{
+#if( "${tableInfo.Description}" != "" )
+ 	/// <summary>
+    /// ${tableInfo.Description}
+    /// </summary>
+#end
+    [Serializable]
+    [SugarTable("${tableName}")]    //对应数据库的ORM_School表
+    public class $tools.ReplaceFirst($tools.FirstUpperCase(${tableName}), "Tb_").Replace("_", "")
+    {
+#foreach($column in $tableColumns)
+         /// <summary>
+#if( "${column.ColumnDescription}" != "" )  
+        /// $tools.StrTrim($column.ColumnDescription)
+#else
+        ///
+#end
+        /// </summary>
+#if($column.IsPrimarykey)
+        [SugarColumn(IsPrimaryKey=true,ColumnName ="${column.DbColumnName}")]  
+#else
+        [SugarColumn(ColumnName ="${column.DbColumnName}")]  
+#end
+#if($column.DbColumnName == "status")
+        public $tools.ConvertDataType($column.DataType) $tools.ReplaceFirst($tools.StrFirstUpperCase(${column.DbColumnName}),"_") { get; set; } = 1;
+#elseif($column.DbColumnName == "isDel")
+        public $tools.ConvertDataType($column.DataType) $tools.ReplaceFirst($tools.StrFirstUpperCase(${column.DbColumnName}),"_") { get; set; } = 0;
+#else
+#if($tools.IsUnderline(${column.DbColumnName}))
+        public $tools.ConvertDataType($column.DataType) $tools.ReplaceFirst($tools.FirstUpperCase(${column.DbColumnName}),"_") { get; set; }
+#else
+        public $tools.ConvertDataType($column.DataType) $tools.StrFirstUpperCase(${column.DbColumnName}) { get; set; }
+#end
+#end
+#end
+    }
+}
